@@ -1,153 +1,263 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import "./styles.scss";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import { Typography } from "@mui/material";
+import { ResponsivePie } from "@nivo/pie";
 
 type Iprops = {
-  createData: (
-    name: string,
-    calories: number,
-    fat: number,
-    carbs: number,
-    protein: number,
-    price: number
-  ) => {
-    name: string;
-    calories: number;
-    fat: number;
-    carbs: number;
-    protein: number;
-    price: number;
-    history: {
-      date: string;
-      customerId: string;
-      amount: number;
-    }[];
-  };
-  rows: {
-    name: string;
-    calories: number;
-    fat: number;
-    carbs: number;
-    protein: number;
-    price: number;
-    history: {
-      date: string;
-      customerId: string;
-      amount: number;
-    }[];
+  handleOnMenuPlateClick: (name: string) => void;
+  totalUser: number;
+  totalClass: number;
+  data1: {
+    id: string;
+    label: string;
+    value: number;
+    color: string;
+  }[];
+  data2: {
+    id: string;
+    label: string;
+    value: number;
+    color: string;
   }[];
 };
-
 export const HomeAdminComponent = (props: Iprops) => {
-  const Row = ({
-    row,
-  }: {
-    row: {
-      name: string;
-      calories: number;
-      fat: number;
-      carbs: number;
-      protein: number;
-      price: number;
-      history: {
-        date: string;
-        customerId: string;
-        amount: number;
-      }[];
-    };
-  }) => {
-    const [open, setOpen] = React.useState(false);
-
-    return (
-      <React.Fragment>
-        <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-          <TableCell>
-            <IconButton
-              aria-label="expand row"
-              size="small"
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          </TableCell>
-          <TableCell component="th" scope="row">
-            {row.name}
-          </TableCell>
-          <TableCell align="right">{row.calories}</TableCell>
-          <TableCell align="right">{row.fat}</TableCell>
-          <TableCell align="right">{row.carbs}</TableCell>
-          <TableCell align="right">{row.protein}</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <Box sx={{ margin: 1 }}>
-                <Typography variant="h6" gutterBottom component="div">
-                  History
-                </Typography>
-                <Table size="small" aria-label="purchases">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Date</TableCell>
-                      <TableCell>Customer</TableCell>
-                      <TableCell align="right">Amount</TableCell>
-                      <TableCell align="right">Total price ($)</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {row.history.map((historyRow) => (
-                      <TableRow key={historyRow.date}>
-                        <TableCell component="th" scope="row">
-                          {historyRow.date}
-                        </TableCell>
-                        <TableCell>{historyRow.customerId}</TableCell>
-                        <TableCell align="right">{historyRow.amount}</TableCell>
-                        <TableCell align="right">
-                          {Math.round(historyRow.amount * row.price * 100) /
-                            100}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Box>
-            </Collapse>
-          </TableCell>
-        </TableRow>
-      </React.Fragment>
-    );
-  };
+  const { handleOnMenuPlateClick, totalUser, totalClass, data1, data2 } = props;
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {props.rows.map((row) => (
-            <Row key={row.name} row={row} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Box className="homeAdminContainer">
+      <Box className="homeAdminMenuPlateContainer">
+        <Box
+          className="homeAdminMenuPlate"
+          sx={{ backgroundColor: "#fba046" }}
+          onClick={() => handleOnMenuPlateClick("/classManager")}
+        >
+          <Box className="homeAdminMenuPlateIcon">
+            <AccountTreeIcon htmlColor="white" sx={{ fontSize: "150px" }} />
+          </Box>
+          <Box className="homeAdminMenuPlateContent">
+            <Typography component="h1" color="white" fontSize={30}>
+              Classes
+            </Typography>
+            <Typography component="h1" color="white" fontSize={20}>
+              {`Number of classes: ${totalClass}`}
+            </Typography>
+          </Box>
+        </Box>
+        <Box
+          className="homeAdminMenuPlate"
+          sx={{ backgroundColor: "#46c5fb" }}
+          onClick={() => handleOnMenuPlateClick("/usersManager")}
+        >
+          <Box className="homeAdminMenuPlateIcon">
+            <AccountTreeIcon htmlColor="white" sx={{ fontSize: "150px" }} />
+          </Box>
+          <Box className="homeAdminMenuPlateContent">
+            <Typography component="h1" color="white" fontSize={30}>
+              Users
+            </Typography>
+            <Typography component="h1" color="white" fontSize={20}>
+              {`Number of Users: ${totalUser}`}
+            </Typography>
+          </Box>
+        </Box>
+        <Box
+          className="homeAdminMenuPlate"
+          sx={{ backgroundColor: "#fb4669" }}
+          onClick={() => handleOnMenuPlateClick("/scheduleManager")}
+        >
+          <Box className="homeAdminMenuPlateIcon">
+            <AccountTreeIcon htmlColor="white" sx={{ fontSize: "150px" }} />
+          </Box>
+          <Box className="homeAdminMenuPlateContent">
+            <Typography component="h1" color="white" fontSize={30}>
+              Schedule
+            </Typography>
+            <Typography component="h1" color="white" fontSize={20}>
+              Schedule Manager
+            </Typography>
+          </Box>
+        </Box>
+        <Box
+          className="homeAdminMenuPlate"
+          sx={{ backgroundColor: "#4654fb" }}
+          onClick={() => handleOnMenuPlateClick("/scoreManager")}
+        >
+          <Box className="homeAdminMenuPlateIcon">
+            <AccountTreeIcon htmlColor="white" sx={{ fontSize: "150px" }} />
+          </Box>
+          <Box className="homeAdminMenuPlateContent">
+            <Typography component="h1" color="white" fontSize={30}>
+              Scores
+            </Typography>
+            <Typography component="h1" color="white" fontSize={20}>
+              Score Manager
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+      <Box className="homeAdminChartContainer">
+        <ResponsivePie
+          data={data2}
+          margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+          innerRadius={0.5}
+          padAngle={0.7}
+          cornerRadius={3}
+          activeOuterRadiusOffset={8}
+          borderWidth={1}
+          borderColor={{
+            from: "color",
+            modifiers: [["darker", 0.2]],
+          }}
+          arcLinkLabelsSkipAngle={10}
+          arcLinkLabelsTextColor="#333333"
+          arcLinkLabelsThickness={2}
+          arcLinkLabelsColor={{ from: "color" }}
+          arcLabelsSkipAngle={10}
+          arcLabelsTextColor={{
+            from: "color",
+            modifiers: [["darker", 2]],
+          }}
+          defs={[
+            {
+              id: "dots",
+              type: "patternDots",
+              background: "inherit",
+              color: "rgba(255, 255, 255, 0.3)",
+              size: 4,
+              padding: 1,
+              stagger: true,
+            },
+            {
+              id: "lines",
+              type: "patternLines",
+              background: "inherit",
+              color: "rgba(255, 255, 255, 0.3)",
+              rotation: -45,
+              lineWidth: 6,
+              spacing: 10,
+            },
+          ]}
+          legends={[
+            {
+              anchor: "bottom",
+              direction: "row",
+              justify: false,
+              translateX: 0,
+              translateY: 56,
+              itemsSpacing: 0,
+              itemWidth: 100,
+              itemHeight: 18,
+              itemTextColor: "#999",
+              itemDirection: "left-to-right",
+              itemOpacity: 1,
+              symbolSize: 18,
+              symbolShape: "circle",
+              effects: [
+                {
+                  on: "hover",
+                  style: {
+                    itemTextColor: "#000",
+                  },
+                },
+              ],
+            },
+          ]}
+        />
+        <ResponsivePie
+          data={data1}
+          margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+          innerRadius={0.5}
+          padAngle={0.7}
+          cornerRadius={3}
+          activeOuterRadiusOffset={8}
+          borderWidth={1}
+          borderColor={{
+            from: "color",
+            modifiers: [["darker", 0.2]],
+          }}
+          arcLinkLabelsSkipAngle={10}
+          arcLinkLabelsTextColor="#333333"
+          arcLinkLabelsThickness={2}
+          arcLinkLabelsColor={{ from: "color" }}
+          arcLabelsSkipAngle={10}
+          arcLabelsTextColor={{
+            from: "color",
+            modifiers: [["darker", 2]],
+          }}
+          defs={[
+            {
+              id: "dots",
+              type: "patternDots",
+              background: "inherit",
+              color: "rgba(255, 255, 255, 0.3)",
+              size: 4,
+              padding: 1,
+              stagger: true,
+            },
+            {
+              id: "lines",
+              type: "patternLines",
+              background: "inherit",
+              color: "rgba(255, 255, 255, 0.3)",
+              rotation: -45,
+              lineWidth: 6,
+              spacing: 10,
+            },
+          ]}
+          fill={[
+            {
+              match: {
+                id: "gioi",
+              },
+              id: "dots",
+            },
+            {
+              match: {
+                id: "kha",
+              },
+              id: "lines",
+            },
+            {
+              match: {
+                id: "trungBinh",
+              },
+              id: "dots",
+            },
+            {
+              match: {
+                id: "yeu",
+              },
+              id: "lines",
+            },
+          ]}
+          legends={[
+            {
+              anchor: "bottom",
+              direction: "row",
+              justify: false,
+              translateX: 0,
+              translateY: 56,
+              itemsSpacing: 0,
+              itemWidth: 100,
+              itemHeight: 18,
+              itemTextColor: "#999",
+              itemDirection: "left-to-right",
+              itemOpacity: 1,
+              symbolSize: 18,
+              symbolShape: "circle",
+              effects: [
+                {
+                  on: "hover",
+                  style: {
+                    itemTextColor: "#000",
+                  },
+                },
+              ],
+            },
+          ]}
+        />
+      </Box>
+    </Box>
   );
 };

@@ -5,6 +5,13 @@ import Router from "./routers";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
+  getAllClasses,
+  getAllGrades,
+  getAllStudentAccountRegisterDetail,
+  getAllStudents,
+  getAllSubjects,
+  getAllTeacherAccountRegisterDetail,
+  getAllTeachers,
   getSemester,
   getStudentUser,
   getTeacherClassList,
@@ -18,18 +25,27 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     if (userId) {
-      dispatch(getSemester());
       if (userRole === "ROLE_STUDENT") {
+        dispatch(getSemester());
         dispatch(getStudentUser(userId));
       }
       if (userRole === "ROLE_TEACHER") {
+        dispatch(getSemester());
         dispatch(getTeacherUser(userId));
         dispatch(getTeacherClassList(userId));
       }
       if (userRole === "ROLE_ADMIN") {
+        dispatch(getSemester());
+        dispatch(getAllClasses());
+        dispatch(getAllTeachers());
+        dispatch(getAllStudents());
+        dispatch(getAllSubjects());
+        dispatch(getAllGrades());
+        dispatch(getAllTeacherAccountRegisterDetail());
+        dispatch(getAllStudentAccountRegisterDetail());
       }
     }
-  }, []);
+  }, [userId, userRole]);
   return (
     <div className="App">
       <Router />
