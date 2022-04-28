@@ -29,7 +29,15 @@ type defaultInitialState = {
   isSuccess: boolean;
   teacherClassList: any;
   teacherClassStudentMarksList: any;
+  studentInClassList: any;
+  classList: any;
+  teacherList: any;
   studentList: any;
+  subjectList: any;
+  gradeList: any;
+  studentAccountRegisterDetailList: any;
+  teacherAccountRegisterDetailList: any;
+  fullStudentDetailList: any;
 };
 const initialState: defaultInitialState = {
   userId: "",
@@ -43,7 +51,15 @@ const initialState: defaultInitialState = {
   semester: [],
   teacherClassList: [],
   teacherClassStudentMarksList: [],
+  studentInClassList: [],
+  classList: [],
+  teacherList: [],
   studentList: [],
+  subjectList: [],
+  gradeList: [],
+  studentAccountRegisterDetailList: [],
+  teacherAccountRegisterDetailList: [],
+  fullStudentDetailList: [],
 };
 //other
 export const getSemester = createAsyncThunk("users/getSemester", async () => {
@@ -53,9 +69,6 @@ export const getSemester = createAsyncThunk("users/getSemester", async () => {
 export const updateMultiMarks = createAsyncThunk(
   "users/updateMultiMarks",
   async (value: any) => {
-    console.log({
-      markArr: value,
-    });
     const respond = await baseURL.put(`api/mark/multiMark`, {
       markArr: value,
     });
@@ -69,6 +82,38 @@ export const getStudentInClass = createAsyncThunk(
     return respond.data;
   }
 );
+export const getAllClasses = createAsyncThunk(
+  "users/getAllClasses",
+  async () => {
+    const respond = await baseURL.get(`api/class`);
+    return respond.data;
+  }
+);
+export const getAllTeachers = createAsyncThunk(
+  "users/getAllTeachers",
+  async () => {
+    const respond = await baseURL.get(`api/teacher`);
+    return respond.data;
+  }
+);
+export const getAllStudents = createAsyncThunk(
+  "users/getAllStudents",
+  async () => {
+    const respond = await baseURL.get(`api/student`);
+    return respond.data;
+  }
+);
+export const getAllSubjects = createAsyncThunk(
+  "users/getAllSubjects",
+  async () => {
+    const respond = await baseURL.get(`api/subject`);
+    return respond.data;
+  }
+);
+export const getAllGrades = createAsyncThunk("users/getAllGrades", async () => {
+  const respond = await baseURL.get(`api/grade`);
+  return respond.data;
+});
 //student
 export const getStudentSignin = createAsyncThunk(
   "users/getStudentSignin",
@@ -186,6 +231,70 @@ export const getAdminSignin = createAsyncThunk(
     }
   }
 );
+export const getAllStudentData = createAsyncThunk(
+  "users/getAllStudentData",
+  async ({
+    listId,
+    listSemester,
+  }: {
+    listId: string[];
+    listSemester: string[];
+  }) => {
+    const data: any = [];
+    listSemester.forEach((semester) => {
+      const newArr: any = listId.map((id) => {
+        const respond_mark = new Promise((resolve, reject) => {
+          setTimeout(
+            resolve,
+            5000,
+            baseURL.get(`api/student/${id}/marks/${semester}`)
+          );
+        });
+        const respond_class = new Promise((resolve, reject) => {
+          setTimeout(resolve, 5000, baseURL.get(`api/student/${id}`));
+        });
+        Promise.all([respond_mark, respond_class]).then((values: any) => {
+          const newRespond = {
+            ...values[0].data,
+            lop_maLop: values[1].data.lop_maLop,
+          };
+          return newRespond;
+        });
+      });
+      data.push(newArr);
+    });
+    return data;
+  }
+);
+export const getAllStudentAccountRegisterDetail = createAsyncThunk(
+  "users/getAllStudentAccountRegisterDetail",
+  async () => {
+    const respond = await baseURL.get(`api/admin/studentAccount`);
+    return respond.data;
+  }
+);
+export const getAllTeacherAccountRegisterDetail = createAsyncThunk(
+  "users/getAllTeacherAccountRegisterDetail",
+  async () => {
+    const respond = await baseURL.get(`api/admin/teacherAccount`);
+    return respond.data;
+  }
+);
+
+export const deleteStudent = createAsyncThunk(
+  "users/deleteStudent",
+  async (id: string) => {
+    const respond = await baseURL.delete(`api/student/${id}`);
+    return respond.data;
+  }
+);
+export const deleteTeacher = createAsyncThunk(
+  "users/deleteTeacher",
+  async (id: string) => {
+    const respond = await baseURL.delete(`api/teacher/${id}`);
+    return respond.data;
+  }
+);
 export const reduxSlice = createSlice({
   name: "redux",
   initialState,
@@ -216,13 +325,52 @@ export const reduxSlice = createSlice({
         toast.error("Update marks fail", { autoClose: 2000 });
       })
       .addCase(getStudentInClass.fulfilled, (state, action) => {
-        state.studentList = action.payload.students;
-        console.log(action.payload);
+        state.studentInClassList = action.payload.students;
         toast.success("Get student in class success", { autoClose: 2000 });
       })
       .addCase(getStudentInClass.rejected, (state) => {
-        state.studentList = [];
+        state.studentInClassList = [];
         toast.error("Get student in class fail", { autoClose: 2000 });
+      })
+      .addCase(getAllClasses.fulfilled, (state, action) => {
+        state.classList = action.payload;
+        toast.success("Get student in class success", { autoClose: 2000 });
+      })
+      .addCase(getAllClasses.rejected, (state) => {
+        state.classList = [];
+        toast.error("Get student in class fail", { autoClose: 2000 });
+      })
+      .addCase(getAllTeachers.fulfilled, (state, action) => {
+        state.teacherList = action.payload;
+        toast.success("Get all teacher success", { autoClose: 2000 });
+      })
+      .addCase(getAllTeachers.rejected, (state) => {
+        state.teacherList = [];
+        toast.error("Get all teacher fail", { autoClose: 2000 });
+      })
+      .addCase(getAllStudents.fulfilled, (state, action) => {
+        state.studentList = action.payload;
+        toast.success("Get all student success", { autoClose: 2000 });
+      })
+      .addCase(getAllStudents.rejected, (state) => {
+        state.studentList = [];
+        toast.error("Get all student fail", { autoClose: 2000 });
+      })
+      .addCase(getAllSubjects.fulfilled, (state, action) => {
+        state.subjectList = action.payload;
+        toast.success("Get all subject success", { autoClose: 2000 });
+      })
+      .addCase(getAllSubjects.rejected, (state) => {
+        state.subjectList = [];
+        toast.error("Get all subject fail", { autoClose: 2000 });
+      })
+      .addCase(getAllGrades.fulfilled, (state, action) => {
+        state.gradeList = action.payload;
+        toast.success("Get all grade success", { autoClose: 2000 });
+      })
+      .addCase(getAllGrades.rejected, (state) => {
+        state.gradeList = [];
+        toast.error("Get all grade fail", { autoClose: 2000 });
       });
     //student
     builder
@@ -318,11 +466,10 @@ export const reduxSlice = createSlice({
         toast.success("Get class list success", { autoClose: 2000 });
       })
       .addCase(getTeacherClassList.rejected, (state) => {
-        // state.studentMark = [];
+        state.teacherClassList = [];
         toast.error("Get class list fail", { autoClose: 2000 });
       })
       .addCase(getTeacherClassStudentMarksList.fulfilled, (state, action) => {
-        //////
         state.teacherClassStudentMarksList = action.payload;
         toast.success(
           "Get all score for student in semester in class success",
@@ -330,7 +477,7 @@ export const reduxSlice = createSlice({
         );
       })
       .addCase(getTeacherClassStudentMarksList.rejected, (state) => {
-        // state.studentMark = [];
+        state.teacherClassStudentMarksList = [];
         toast.error("Get all score for student in semester in class fail", {
           autoClose: 2000,
         });
@@ -351,6 +498,68 @@ export const reduxSlice = createSlice({
         state.isSuccess = false;
         localStorage.removeItem("user");
         toast.error(action.payload.message, { autoClose: 2000 });
+      })
+      .addCase(
+        getAllStudentAccountRegisterDetail.fulfilled,
+        (state, action) => {
+          state.studentAccountRegisterDetailList = action.payload;
+          toast.success("Get all student account register detail success", {
+            autoClose: 2000,
+          });
+        }
+      )
+      .addCase(getAllStudentAccountRegisterDetail.rejected, (state) => {
+        state.studentAccountRegisterDetailList = [];
+        toast.error("Get all student account register detail fail", {
+          autoClose: 2000,
+        });
+      })
+      .addCase(
+        getAllTeacherAccountRegisterDetail.fulfilled,
+        (state, action) => {
+          state.teacherAccountRegisterDetailList = action.payload;
+          toast.success("Get all teacher account register detail success", {
+            autoClose: 2000,
+          });
+        }
+      )
+      .addCase(getAllTeacherAccountRegisterDetail.rejected, (state) => {
+        state.teacherAccountRegisterDetailList = [];
+        toast.error("Get all teacher account register detail fail", {
+          autoClose: 2000,
+        });
+      })
+      .addCase(getAllStudentData.fulfilled, (state, action) => {
+        state.fullStudentDetailList = action.payload;
+        toast.success("Get full student detail success", {
+          autoClose: 2000,
+        });
+      })
+      .addCase(getAllStudentData.rejected, (state) => {
+        state.fullStudentDetailList = [];
+        toast.error("Get  full student detail fail", {
+          autoClose: 2000,
+        });
+      })
+      .addCase(deleteStudent.fulfilled, (state, action) => {
+        toast.success("Delete student success", {
+          autoClose: 2000,
+        });
+      })
+      .addCase(deleteStudent.rejected, (state) => {
+        toast.error("Delete student fail", {
+          autoClose: 2000,
+        });
+      })
+      .addCase(deleteTeacher.fulfilled, (state, action) => {
+        toast.success("Delete teacher success", {
+          autoClose: 2000,
+        });
+      })
+      .addCase(deleteTeacher.rejected, (state) => {
+        toast.error("Delete teacher fail", {
+          autoClose: 2000,
+        });
       });
   },
 });

@@ -13,7 +13,6 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { AccountCircle } from "@mui/icons-material";
 import {
-  Container,
   ListItemButton,
   ListItemIcon,
   ListItemText,
@@ -48,6 +47,7 @@ export const Navbar = ({ children }: any) => {
     setAnchorEl(null);
   };
   const handleOpenProfile = () => {
+    setPath("Profile");
     setPath("/profile");
     history.push("/profile");
     setAnchorEl(null);

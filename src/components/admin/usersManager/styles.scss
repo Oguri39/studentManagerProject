@@ -1,0 +1,21 @@
+.adminUserManagerContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.adminUserManagerStudent{
+    width: 49%;
+    height: 700px;
+}
+.adminUserManagerTeacher{
+    width: 49%;
+    height: 700px;
+
+}
+.adminUserManagerDataGridTittle{
+    padding-left: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

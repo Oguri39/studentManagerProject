@@ -11,10 +11,10 @@ import { ClassListComponent } from "../../../components";
 import { getUser } from "../../../utils/localStorage";
 
 const ClassListScreen = () => {
-  const { teacherClassList, studentList } = useSelector(
+  const { teacherClassList, studentInClassList } = useSelector(
     (state: RootState) => state.redux
   );
-  console.log(studentList);
+  console.log(studentInClassList);
   const dispatch = useDispatch();
   const userId = getUser();
   const [currentClass, setCurrentClass] = useState(
@@ -58,8 +58,8 @@ const ClassListScreen = () => {
     return { id, name, gender, dob, homeTown, address };
   };
   const rows =
-    studentList &&
-    studentList?.map((element: any) => {
+    studentInClassList &&
+    studentInClassList?.map((element: any) => {
       return createData(
         element.maHs,
         element.hoTen,
