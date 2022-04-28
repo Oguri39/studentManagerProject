@@ -13,9 +13,6 @@ import {
 } from "../../../app/redux";
 
 const HomeTeacherScreen = () => {
-  // const { studentFullMark, semeseter } = useSelector(
-  //   (state: RootState) => state.personalScore
-  // );
   const { teacherClassList, teacherClassStudentMarksList } = useSelector(
     (state: RootState) => state.redux
   );
@@ -92,6 +89,27 @@ const HomeTeacherScreen = () => {
     createScheduleData("09", "", "", "", "", "", "", ""),
     createScheduleData("10", "", "", "", "", "", "", ""),
   ];
+  const semester = teacherClassList
+    .map((element: any) => element.maHocKi)
+    .filter(function (elem: any, index: number, self: any) {
+      return index === self.indexOf(elem);
+    });
+  const classList = teacherClassList
+    .map((element: any) => ({
+      maLop: element.maLop,
+      tenLop: element.tenLop,
+      maHocKi: element.maHocKi,
+    }))
+    .filter(
+      (value: any, index: number, self: any) =>
+        index ===
+        self.findIndex(
+          (t: any) =>
+            t.maLop === value.maLop &&
+            t.tenLop === value.tenLop &&
+            t.maHocKi === value.maHocKi
+        )
+    );
   return (
     <HomeTeacherComponent
       rows={rows}
@@ -103,6 +121,8 @@ const HomeTeacherScreen = () => {
       currentClass={currentClass}
       onChangeClass={onChangeClass}
       onChangeSubject={onChangeSubject}
+      semester={semester}
+      classList={classList}
     />
   );
 };

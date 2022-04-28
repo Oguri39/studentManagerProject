@@ -10,6 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import GroupIcon from "@mui/icons-material/Group";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { AccountCircle } from "@mui/icons-material";
 import {
   Container,
@@ -185,27 +186,27 @@ export const Navbar = ({ children }: any) => {
                   </ListItemIcon>
                   <ListItemText sx={{ color: "white" }} primary="Class List" />
                 </ListItemButton>
-                <ListItemButton
+                {/* <ListItemButton
                   onClick={() => handleOnClick("/conduct", "Conduct")}
                 >
                   <ListItemIcon sx={{ color: "white" }}>
                     <HomeIcon />
                   </ListItemIcon>
                   <ListItemText sx={{ color: "white" }} primary="Conduct" />
-                </ListItemButton>
+                </ListItemButton> */}
                 <ListItemButton
                   onClick={() => handleOnClick("/schedule", "Schedule")}
                 >
                   <ListItemIcon sx={{ color: "white" }}>
                     <AccountTreeIcon />
                   </ListItemIcon>
-                  <ListItemText sx={{ color: "white" }} primary="Conduct" />
+                  <ListItemText sx={{ color: "white" }} primary="Schedule" />
                 </ListItemButton>
                 <ListItemButton
                   onClick={() => handleOnClick("/scoreModify", "Score Modify")}
                 >
                   <ListItemIcon sx={{ color: "white" }}>
-                    <AccountTreeIcon />
+                    <AppRegistrationIcon />
                   </ListItemIcon>
                   <ListItemText
                     sx={{ color: "white" }}

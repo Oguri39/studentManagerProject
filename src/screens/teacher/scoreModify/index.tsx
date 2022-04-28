@@ -140,6 +140,27 @@ const ScoreModifyScreen = () => {
     dispatch(updateMultiMarks(value));
     setIsEdit(false);
   };
+  const semester = teacherClassList
+    .map((element: any) => element.maHocKi)
+    .filter(function (elem: any, index: number, self: any) {
+      return index === self.indexOf(elem);
+    });
+  const classList = teacherClassList
+    .map((element: any) => ({
+      maLop: element.maLop,
+      tenLop: element.tenLop,
+      maHocKi: element.maHocKi,
+    }))
+    .filter(
+      (value: any, index: number, self: any) =>
+        index ===
+        self.findIndex(
+          (t: any) =>
+            t.maLop === value.maLop &&
+            t.tenLop === value.tenLop &&
+            t.maHocKi === value.maHocKi
+        )
+    );
   return (
     <ScoreModifyComponent
       rows={rows}
@@ -156,6 +177,8 @@ const ScoreModifyScreen = () => {
       handleChangeValue={handleChangeValue}
       handleOnSubmit={handleOnSubmit}
       value={value}
+      semester={semester}
+      classList={classList}
     />
   );
 };

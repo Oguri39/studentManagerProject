@@ -11,7 +11,6 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { string } from "yup";
 import { ProfilePlateComponent } from "../../all/profilePlate";
 import "./styles.scss";
 
@@ -43,6 +42,8 @@ type Iprops = {
   onChangeClass: (event: SelectChangeEvent) => void;
   onChangeSemester: (event: SelectChangeEvent) => void;
   onChangeSubject: (event: SelectChangeEvent) => void;
+  semester: any;
+  classList: any;
 };
 
 export const HomeTeacherComponent = (props: Iprops) => {
@@ -56,6 +57,8 @@ export const HomeTeacherComponent = (props: Iprops) => {
     currentSemester,
     currentSubject,
     currentClass,
+    semester,
+    classList,
   } = props;
 
   return (
@@ -66,58 +69,65 @@ export const HomeTeacherComponent = (props: Iprops) => {
         </Box>
         <Box className="homeTeacherLeftBottomContainer">
           <Box className="homeTeacherLeftBottomTable">
-          <Box
-        sx={{
-          maxWidth: "470px",
-          justifyContent: "space-between",
-          flexDirection: "row",
-          display: "flex",
-          margin: "auto",
-        }}
-      >
-        <Box>
-          <Select
-            sx={{ width: "150px" }}
-            defaultValue=""
-            value={currentSemester}
-            onChange={onChangeSemester}
-          >
-            {teacherClassList?.map((element, index) => (
-              <MenuItem key={index} value={element.maHocKi}>
-                {element.maHocKi}
-              </MenuItem>
-            ))}
-          </Select>
-        </Box>
-        <Box>
-          <Select
-            sx={{ width: "150px" }}
-            defaultValue=""
-            value={currentClass}
-            onChange={onChangeClass}
-          >
-            {teacherClassList?.map((element, index) => (
-              <MenuItem key={index} value={element.maLop}>
-                {element.tenLop}
-              </MenuItem>
-            ))}
-          </Select>
-        </Box>
-        <Box>
-          <Select
-            sx={{ width: "150px" }}
-            defaultValue=""
-            value={currentSubject}
-            onChange={onChangeSubject}
-          >
-            {teacherClassList?.map((element, index) => (
-              <MenuItem key={index} value={element.maMonHoc}>
-                {element.tenMonHoc}
-              </MenuItem>
-            ))}
-          </Select>
-        </Box>
-      </Box>
+            <Box
+              sx={{
+                maxWidth: "470px",
+                justifyContent: "space-between",
+                flexDirection: "row",
+                display: "flex",
+                margin: "auto",
+              }}
+            >
+              <Box>
+                <Select
+                  sx={{ width: "150px" }}
+                  defaultValue=""
+                  value={currentSemester}
+                  onChange={onChangeSemester}
+                >
+                  {semester.map((element: any, index: number) => (
+                    <MenuItem key={index} value={element}>
+                      {element}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Box>
+              <Box>
+                <Select
+                  sx={{ width: "150px" }}
+                  defaultValue=""
+                  value={currentClass}
+                  onChange={onChangeClass}
+                >
+                  {classList?.map(
+                    (element: any, index: number) =>
+                      element.maHocKi === currentSemester && (
+                        <MenuItem key={index} value={element.maLop}>
+                          {element.tenLop}
+                        </MenuItem>
+                      )
+                  )}
+                </Select>
+              </Box>
+              <Box>
+                <Select
+                  sx={{ width: "150px" }}
+                  defaultValue=""
+                  value={currentSubject}
+                  onChange={onChangeSubject}
+                >
+                  {teacherClassList?.map(
+                    (element, index) =>
+                      element.maLop === currentClass &&
+                      element.maHocKi === currentSemester && (
+                        <MenuItem key={index} value={element.maMonHoc}>
+                          {element.tenMonHoc}
+                        </MenuItem>
+                      )
+                  )}
+                </Select>
+              </Box>
+            </Box>
             <TableContainer
               component={Paper}
               sx={{

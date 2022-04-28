@@ -52,6 +52,8 @@ type Iprops = {
   setIsEdit: React.Dispatch<React.SetStateAction<boolean>>;
   handleChangeValue: (markId: number, key: string, updateValue: number) => void;
   handleOnSubmit: () => void;
+  semester: any;
+  classList: any;
 };
 export const ScoreModifyComponent = (props: Iprops) => {
   const {
@@ -69,6 +71,8 @@ export const ScoreModifyComponent = (props: Iprops) => {
     handleChangeValue,
     handleOnSubmit,
     value,
+    semester,
+    classList,
   } = props;
   return (
     <Box>
@@ -88,9 +92,9 @@ export const ScoreModifyComponent = (props: Iprops) => {
             value={currentSemester}
             onChange={onChangeSemester}
           >
-            {teacherClassList?.map((element, index) => (
-              <MenuItem key={index} value={element.maHocKi}>
-                {element.maHocKi}
+            {semester.map((element: any, index: number) => (
+              <MenuItem key={index} value={element}>
+                {element}
               </MenuItem>
             ))}
           </Select>
@@ -102,11 +106,14 @@ export const ScoreModifyComponent = (props: Iprops) => {
             value={currentClass}
             onChange={onChangeClass}
           >
-            {teacherClassList?.map((element, index) => (
-              <MenuItem key={index} value={element.maLop}>
-                {element.tenLop}
-              </MenuItem>
-            ))}
+            {classList?.map(
+              (element: any, index: number) =>
+                element.maHocKi === currentSemester && (
+                  <MenuItem key={index} value={element.maLop}>
+                    {element.tenLop}
+                  </MenuItem>
+                )
+            )}
           </Select>
         </Box>
         <Box>
@@ -116,11 +123,15 @@ export const ScoreModifyComponent = (props: Iprops) => {
             value={currentSubject}
             onChange={onChangeSubject}
           >
-            {teacherClassList?.map((element, index) => (
-              <MenuItem key={index} value={element.maMonHoc}>
-                {element.tenMonHoc}
-              </MenuItem>
-            ))}
+            {teacherClassList?.map(
+              (element, index) =>
+                element.maLop === currentClass &&
+                element.maHocKi === currentSemester && (
+                  <MenuItem key={index} value={element.maMonHoc}>
+                    {element.tenMonHoc}
+                  </MenuItem>
+                )
+            )}
           </Select>
         </Box>
       </Box>

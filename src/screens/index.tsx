@@ -12,6 +12,7 @@ export { default as ClassListScreen } from "./teacher/classList";
 export { default as ConductScreen } from "./teacher/conduct";
 export { default as TeacherScheduleScreen } from "./teacher/schedule";
 export { default as ScoreModifyScreen } from "./teacher/scoreModify";
+export {default as ProfileTeacherScreen} from "./teacher/profile";
 
 export { default as HomeAdminScreen } from "./admin/home";
 export { default as ClassManagerScreen } from "./admin/classManager";

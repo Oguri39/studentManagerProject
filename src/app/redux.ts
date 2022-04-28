@@ -29,6 +29,7 @@ type defaultInitialState = {
   isSuccess: boolean;
   teacherClassList: any;
   teacherClassStudentMarksList: any;
+  studentList: any;
 };
 const initialState: defaultInitialState = {
   userId: "",
@@ -42,6 +43,7 @@ const initialState: defaultInitialState = {
   semester: [],
   teacherClassList: [],
   teacherClassStudentMarksList: [],
+  studentList: [],
 };
 //other
 export const getSemester = createAsyncThunk("users/getSemester", async () => {
@@ -57,6 +59,13 @@ export const updateMultiMarks = createAsyncThunk(
     const respond = await baseURL.put(`api/mark/multiMark`, {
       markArr: value,
     });
+    return respond.data;
+  }
+);
+export const getStudentInClass = createAsyncThunk(
+  "users/getStudentInClass",
+  async (id: string) => {
+    const respond = await baseURL.get(`api/class/${id}/student`);
     return respond.data;
   }
 );
@@ -205,6 +214,15 @@ export const reduxSlice = createSlice({
       })
       .addCase(updateMultiMarks.rejected, (state) => {
         toast.error("Update marks fail", { autoClose: 2000 });
+      })
+      .addCase(getStudentInClass.fulfilled, (state, action) => {
+        state.studentList = action.payload.students;
+        console.log(action.payload);
+        toast.success("Get student in class success", { autoClose: 2000 });
+      })
+      .addCase(getStudentInClass.rejected, (state) => {
+        state.studentList = [];
+        toast.error("Get student in class fail", { autoClose: 2000 });
       });
     //student
     builder
