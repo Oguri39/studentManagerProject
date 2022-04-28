@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   Input,
   InputLabel,
   TextField,
@@ -16,7 +17,6 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 type Iprops = {
   userDetail: any;
-  userClass: any;
   isEdit: boolean;
   setIsEdit: React.Dispatch<React.SetStateAction<boolean>>;
   handleOnSubmit: () => void;
@@ -35,10 +35,9 @@ type Iprops = {
   handleOnSubmitPasswordChange: () => void;
 };
 
-export const ProfileStudentComponent = (props: Iprops) => {
+export const ProfileTeacherComponent = (props: Iprops) => {
   const {
     userDetail,
-    userClass,
     isEdit,
     setIsEdit,
     handleOnSubmit,
@@ -54,7 +53,7 @@ export const ProfileStudentComponent = (props: Iprops) => {
   } = props;
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
-      <Box className="profileStudentContainer">
+      <Box className="profileTeacherContainer">
         <Box>
           <img
             width={300}
@@ -64,29 +63,29 @@ export const ProfileStudentComponent = (props: Iprops) => {
         {isEditPassword === false ? (
           <>
             {isEdit === false ? (
-              <Box className="profileStudentBox">
-                <Box className="profileStudentDetailContainer">
-                  <Box className="profileStudentDetailTittle">
+              <Box className="profileTeacherBox">
+                <Box className="profileTeacherDetailContainer">
+                  <Box className="profileTeacherDetailTittle">
                     <Typography>ID:</Typography>
                     <Typography>Name:</Typography>
                     <Typography>Gender:</Typography>
                     <Typography>Date of Birth:</Typography>
                     <Typography>Address:</Typography>
-                    <Typography>Home town:</Typography>
-                    <Typography>Class:</Typography>
-                    <Typography>Year:</Typography>
+                    <Typography>Mobile Number:</Typography>
+                    <Typography>Email:</Typography>
+                    <Typography>Home Class:</Typography>
                   </Box>
-                  <Box className="profileStudentDetail">
-                    <Typography>{userDetail?.maHs}</Typography>
-                    <Typography>{userDetail?.hoTen}</Typography>
+                  <Box className="profileTeacherDetail">
+                    <Typography>{userDetail?.maGiaoVien}</Typography>
+                    <Typography>{userDetail?.tenGiaoVien}</Typography>
                     <Typography>
                       {userDetail?.gioiTinh ? "Nữ" : "Nam"}
                     </Typography>
                     <Typography>{userDetail?.ngaySinh}</Typography>
                     <Typography>{userDetail?.diaChi}</Typography>
-                    <Typography>{userDetail?.queQuan}</Typography>
-                    <Typography>{userClass?.tenLop}</Typography>
-                    <Typography>{userClass?.nienKhoa}</Typography>
+                    <Typography>{userDetail?.soDienThoai}</Typography>
+                    <Typography>{userDetail?.email}</Typography>
+                    <Typography></Typography>
                   </Box>
                 </Box>
                 <Button
@@ -122,28 +121,28 @@ export const ProfileStudentComponent = (props: Iprops) => {
                 </Button>
               </Box>
             ) : (
-              <Box className="profileStudentEditBox">
-                <Box className="profileStudentDetailContainer">
+              <Box className="profileTeacherEditBox">
+                <Box className="profileTeacherDetailContainer">
                   <Box sx={{ marginRight: 10 }}>
                     <FormControl fullWidth disabled variant="standard">
-                      <InputLabel color="secondary" htmlFor="maHs">
+                      <InputLabel color="secondary" htmlFor="maGiaoVien">
                         ID
                       </InputLabel>
                       <Input
-                        id="maHs"
+                        id="maGiaoVien"
                         color="secondary"
-                        value={value?.maHs}
+                        value={value?.maGiaoVien}
                         sx={{ marginBottom: "20px" }}
                       />
                     </FormControl>
                     <FormControl fullWidth disabled variant="standard">
-                      <InputLabel color="secondary" htmlFor="hoTen">
+                      <InputLabel color="secondary" htmlFor="tenGiaoVien">
                         Name
                       </InputLabel>
                       <Input
-                        id="hoTen"
+                        id="tenGiaoVien"
                         color="secondary"
-                        value={value?.hoTen}
+                        value={value?.tenGiaoVien}
                         sx={{ marginBottom: "20px" }}
                       />
                     </FormControl>
@@ -194,40 +193,39 @@ export const ProfileStudentComponent = (props: Iprops) => {
                       />
                     </FormControl>
                     <FormControl fullWidth variant="standard">
-                      <InputLabel color="secondary" htmlFor="queQuan">
-                        Home town
+                      <InputLabel color="secondary" htmlFor="soDienThoai">
+                        Mobile Number
                       </InputLabel>
                       <Input
                         color="secondary"
-                        id="queQuan"
-                        value={value?.queQuan}
+                        id="soDienthoai"
+                        value={value?.soDienThoai}
                         onChange={(
                           newValue: React.ChangeEvent<
                             HTMLTextAreaElement | HTMLInputElement
                           >
-                        ) => onUpdateValue("queQuan", newValue.target.value)}
+                        ) => onUpdateValue("soDienThoai", newValue.target.value)}
+                        sx={{ marginBottom: "20px" }}
+                      />
+                    </FormControl>
+                    <FormControl fullWidth variant="standard">
+                      <InputLabel color="secondary" htmlFor="email">
+                        Email
+                      </InputLabel>
+                      <Input
+                        id="email"
+                        color="secondary"
+                        value={value?.email}
                         sx={{ marginBottom: "20px" }}
                       />
                     </FormControl>
                     <FormControl fullWidth disabled variant="standard">
-                      <InputLabel color="secondary" htmlFor="tenLop">
-                        Class
+                      <InputLabel color="secondary" htmlFor="homeClass">
+                        Home Class
                       </InputLabel>
                       <Input
-                        id="tenLop"
+                        id="homeClass"
                         color="secondary"
-                        value={userClass?.tenLop}
-                        sx={{ marginBottom: "20px" }}
-                      />
-                    </FormControl>
-                    <FormControl fullWidth disabled variant="standard">
-                      <InputLabel color="secondary" htmlFor="nienKhoa">
-                        Year
-                      </InputLabel>
-                      <Input
-                        id="nienKhoa"
-                        color="secondary"
-                        value={userClass?.nienKhoa}
                         sx={{ marginBottom: "20px" }}
                       />
                     </FormControl>
@@ -268,7 +266,7 @@ export const ProfileStudentComponent = (props: Iprops) => {
           </>
         ) : (
           <>
-            <Box className="profileEditBox">
+            <Box className="profileTeacherEditBox">
               <FormControl fullWidth variant="standard">
                 <InputLabel color="secondary" htmlFor="maHs">
                   Current password

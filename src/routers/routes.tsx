@@ -14,6 +14,7 @@ import {
   HomeTeacherScreen,
   PersonalScoreScreen,
   ProfileStudentScreen,
+  ProfileTeacherScreen,
   ScheduleManagerScreen,
   ScheduleStudentScreen,
   ScoreManagerScreen,
@@ -71,11 +72,14 @@ const Routes = () => {
             <Route path="/classList" key="classList">
               <ClassListScreen />
             </Route>
-            <Route path="/conduct" key="conduct">
+            {/* <Route path="/conduct" key="conduct">
               <ConductScreen />
-            </Route>
+            </Route> */}
             <Route path="/schedule" key="schedule">
               <TeacherScheduleScreen />
+            </Route>
+            <Route path="/profile" key="profile">
+              <ProfileTeacherScreen />
             </Route>
             <Route path="/scoreModify" key="scoreModify">
               <ScoreModifyScreen />

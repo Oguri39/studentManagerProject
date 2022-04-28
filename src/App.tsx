@@ -2,8 +2,8 @@ import "./App.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Router from "./routers";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
   getSemester,
   getStudentUser,
@@ -11,7 +11,6 @@ import {
   getTeacherUser,
 } from "./app/redux";
 import { getUser, getUserRole } from "./utils/localStorage";
-import { RootState } from "./app/store";
 
 function App() {
   const userId = getUser();
@@ -23,8 +22,12 @@ function App() {
       if (userRole === "ROLE_STUDENT") {
         dispatch(getStudentUser(userId));
       }
-      if (userRole === "ROLE_TEACHER") dispatch(getTeacherUser(userId));
-      dispatch(getTeacherClassList(userId));
+      if (userRole === "ROLE_TEACHER") {
+        dispatch(getTeacherUser(userId));
+        dispatch(getTeacherClassList(userId));
+      }
+      if (userRole === "ROLE_ADMIN") {
+      }
     }
   }, []);
   return (

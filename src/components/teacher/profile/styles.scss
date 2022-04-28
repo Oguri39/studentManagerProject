@@ -1,19 +1,19 @@
-.profileStudentContainer{
+.profileTeacherContainer{
     display: flex;
     flex-direction: column;
 }
 
-.profileStudentBox{
+.profileTeacherBox{
     width: 600px;
     height: 400px;
     margin: auto;
 }
-.profileStudentEditBox{
+.profileTeacherEditBox{
     width: 1200px;
     height: 400px;
     margin: auto;
 }
-.profileStudentDetailContainer{
+.profileTeacherDetailContainer{
     display: flex;
     flex-direction: row;
     justify-content: space-around;

@@ -14,6 +14,7 @@ export * from "./teacher/classList";
 export * from "./teacher/conduct";
 export * from "./teacher/schedule";
 export * from "./teacher/scoreModify";
+export * from "./teacher/profile";
 
 export * from "./admin/home";
 export * from "./admin/classManager";
